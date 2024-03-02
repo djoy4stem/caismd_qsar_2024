@@ -1,7 +1,10 @@
 
 ## About
-caismd_qsar_2024 provides material for the [CAiSMD 2024](https://bharatyuva.org/index.php/caismd) Hands-on Session: Exploring Antimalarial Drug Discovery Through Cheminformatics and QSAR modeling. \
+**caismd_qsar_2024** provides material for the [CAiSMD 2024](https://bharatyuva.org/index.php/caismd) Hands-on Session: Exploring Antimalarial Drug Discovery Through Cheminformatics and QSAR modeling. \
+
 An introduction to the tutorial is provided in the .pdf document.
+
+***Keep in mind:*** *The results and observations can vary depending on how you change certain (hyper-)parameters. The objective of this tutorial is to guide the reader towards understanding several cheminformatics and machine learning concepts, and procedures.*
 
 ## Installation
 The tutorial is provided through a series of notebooks in the data/ folder. It is recommended to install an IDE that can incorportate Jupyter notebook extensions, such vas [VSCode](https://code.visualstudio.com/).
