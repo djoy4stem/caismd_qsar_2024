@@ -161,6 +161,8 @@ def clean_data(dd2_data_df, target_column, smiles_column, mol_column='RMol'):
 
     dd2_data_df.dropna(subset=['largest_frag_smiles'], axis=0, inplace=True)
 
+    dd2_data_df = dd2_data_df.reset_index(drop=True) ## Reset the index to avoid issues when manipulating based on indices
+
 
     dd2_data_df['largest_frag_ikey'] = dd2_data_df['largest_frag'].apply(MolToInchiKey)
     duplicates = dd2_data_df[dd2_data_df.duplicated(subset=['largest_frag_ikey'], keep=False)].sort_values(by='largest_frag_ikey')
@@ -172,7 +174,6 @@ def clean_data(dd2_data_df, target_column, smiles_column, mol_column='RMol'):
 
     number_of_duplicates = duplicates.shape[0]
     print(f"\nNumber of duplicates inchikeys: {duplicates.shape[0]} - e.g.: {duplicates.index[:2]}")
-
 
 
 
@@ -192,15 +193,18 @@ def clean_data(dd2_data_df, target_column, smiles_column, mol_column='RMol'):
         for name, group in duplicates.groupby('largest_frag_ikey'):
             if group[target_column].unique().size>1:
                 indices_to_remove.append(list(group.index))
+                # print(group[['largest_frag_ikey', 'PCT_INHIB_DD2', target_column]])
+                # print(list(group.index))
 
         # print(f"indices_to_remove = {indices_to_remove}")
         if len(indices_to_remove):
+            print(indices_to_remove[0])
             print("Example of f molecule with conflicting replicate measurements...\n")
-            print(dd2_data_df[['largest_frag_ikey', 'PCT_INHIB_DD2', target_column]].iloc[indices_to_remove[0], :])
+            print(dd2_data_df[['largest_frag_ikey', 'PCT_INHIB_DD2', target_column]].iloc[indices_to_remove[0]])
             indices_to_remove = utilities.flatten_list(indices_to_remove)
             print(f"\nNumber of samples to remove: = {len(indices_to_remove)}")
             dd2_data_df.drop(indices_to_remove, axis=0, inplace=True)
-
+            dd2_data_df = dd2_data_df.reset_index(drop=True) ## Reset the index to avoid issues when manipulating based on indices
 
         dd2_data_df = pd.concat([dd2_data_df]+groups, axis=0)
         print("dd2_data_df.shape (after removing conflicting replicates) = ", dd2_data_df.shape)
