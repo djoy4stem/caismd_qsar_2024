@@ -1,6 +1,6 @@
 
 ## About
-**caismd_qsar_2024** provides material for the [CAiSMD 2024](https://bharatyuva.org/index.php/caismd) Hands-on Session: Exploring Antimalarial Drug Discovery Through Cheminformatics and QSAR modeling. \
+**caismd_qsar_2024** provides material for the [CAiSMD 2024](https://bharatyuva.org/index.php/caismd) Hands-on Session: Exploring Antimalarial Drug Discovery Through Cheminformatics and QSAR modeling.
 
 An introduction to the tutorial is provided in the .pdf document.
 
