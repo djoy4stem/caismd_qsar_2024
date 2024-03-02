@@ -1,0 +1,6 @@
+models/*.pkl
+figs/*
+
+
+!figs/eval_metrics_wiki_short.png
+!models/
