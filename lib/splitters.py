@@ -45,6 +45,7 @@ def check_ratios(
 def flatten(mylist: List[Any]):
     return [item for level_2_list in mylist for item in level_2_list]
 
+from novana.api import scaffold_from_smiles, shape_from_smiles
 
 class ScaffoldSplitter(object):
 
@@ -54,13 +55,41 @@ class ScaffoldSplitter(object):
         include_chirality: bool = False,
         return_as_indices: bool = True,
         sort_by_size: bool = True,
+        use_novana: bool=False,     
+        **kwargs
     ):
-
-        def bm_scaffold(molecule: Mol, include_chirality: bool = False):
+        def bm_scaffold(molecule: AllChem.Mol, include_chirality: bool=False, use_novana: bool=True,  **kwargs):
             try:
-                scaffold = MurckoScaffold.MurckoScaffoldSmiles(
-                    mol=molecule, includeChirality=include_chirality
-                )
+                scaffold = None
+
+                if use_novana:
+                    flatten_mol = kwargs.get('flatten_mol', False)
+                    as_shape    = kwargs.get('as_shape', False)
+
+                    if as_shape:                         
+                        retain_atom_types = kwargs.get('retain_atom_types', True)
+                        try:
+                            scaffold = shape_from_smiles(smiles=MolToSmiles(molecule)
+                                                        , flatten_mol=flatten_mol
+                                                        , retain_atom_types=retain_atom_types)
+                        except Exception as ne:
+                            print(f"Could not generate shape from smiles with novana: \n{ne}")
+                    else:
+                        try:
+                            generalise_heteroatoms = kwargs.get('generalise_heteroatoms', False)
+                            scaffold = scaffold_from_smiles(smiles=MolToSmiles(molecule)
+                                                            , flatten_mol=flatten_mol
+                                                            , generalise_heteroatoms=generalise_heteroatoms)    
+                        except Exception as e:
+                            print(f"Could not generate scaffold from smiles with novana: \n{ne}")            
+
+                    if not scaffold is None:
+                        scaffold = MolToSmiles(scaffold)
+
+                else:
+                    scaffold = MurckoScaffold.MurckoScaffoldSmiles(
+                        mol=molecule, includeChirality=include_chirality
+                    )
 
                 return scaffold
             except Exception as exp:
@@ -68,6 +97,34 @@ class ScaffoldSplitter(object):
                     f"Could not generate a Bemis-Murck scaffold for the query molecule. \n{exp}"
                 )
                 # return None
+        # def bm_scaffold(molecule: Mol, include_chirality: bool = False,
+        #                         use_novana: bool=False,
+        #                         generalise_heteroatoms: bool=False,        
+        #                         **kwargs
+        #                     ):
+        #     try:
+        #         if use_novana:
+        #             as_shape=kwargs.get('as_shape', False)
+        #             if as_shape:
+        #                 scaffold = None
+        #                 retain_atom_types = kwargs.get('retain_atom_types', False)
+        #                 try:
+        #                     smiles = MolToSmiles(molecule)
+        #                     scaffold = MolToSmiles(shape_from_smiles(smiles))
+        #                 except Exception as ne:
+        #                     print(f"Could not generate scaffold with novana: \n{e}")
+
+        #             else:
+        #                 scaffold = MurckoScaffold.MurckoScaffoldSmiles(
+        #                     mol=molecule, includeChirality=include_chirality
+        #                 )
+
+        #             return scaffold
+        #     except Exception as exp:
+        #         print(
+        #             f"Could not generate a Bemis-Murck scaffold for the query molecule. \n{exp}"
+        #         )
+        #         # return None
 
         try:
             scaffold_smiles = [bm_scaffold(mol, include_chirality) for mol in molecules]
@@ -125,6 +182,8 @@ class ScaffoldSplitter(object):
         sort_by_size: bool = True,
         shuffle_idx: bool = False,
         random_state: int = 1,
+        use_novana:bool = False,
+        **kwargs
     ):
 
         def len_for_list_of_dicts(ldicts: List[dict]):
@@ -150,6 +209,8 @@ class ScaffoldSplitter(object):
                 include_chirality=include_chirality,
                 return_as_indices=return_as_indices,
                 sort_by_size=sort_by_size,
+                use_novana=use_novana,
+                kwargs = kwargs
             )
 
             # print("bmscaffolds = ", bmscaffolds)

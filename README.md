@@ -14,7 +14,7 @@ The tutorial is provided through a series of notebooks in the data/ folder. It i
     * Run ```conda activate caismd_qsar_2024``` .
   
 2. Install packages with pip
-    * Run ```pip install mordred rdkit-pypi pandas umap-learn matplotlib seaborn```
+    * Run ```pip install mordred rdkit-pypi novana pandas umap-learn matplotlib seaborn```
     * Run ```pip install scikit-learn optuna lightgbm shap```
     * Run ```pip install ipywidgets ipykernel```
 
