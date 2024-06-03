@@ -1,6 +1,13 @@
 models/*.pkl
 figs/*
+data/*.pkl
+data/*.json
+data/*.csv
+data/*.jpg
+**/__pycache__/**
+
 
 
 !figs/eval_metrics_wiki_short.png
 !models/
+!data/dd2_inhibition_pubchem_aid_2302.csv
