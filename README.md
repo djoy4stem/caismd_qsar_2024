@@ -26,7 +26,7 @@ The tutorial is provided through a series of notebooks in the data/ folder. It i
 
 ### **caismd_qsar_2024/** 
   - **data/**  *Contains the original records from the PubChem assay. Additional files will be added here, during preprocessing.*
-  - **figs/**  *Figures will be ased here.*
+  - **figs/**  *Figures will be saved here.*
   - **lib/**   *Contains the code for several modules with various utility functions.*
   - **models/**    *The models will be saved here.*
   - **notebooks/** *Contains the interactive notebooks with instructions and explainations.*
