@@ -13,6 +13,7 @@ from rdkit.Chem import (
     Fragments,
     MolToSmiles,
     GetPeriodicTable,
+    AddHs
 )
 from rdkit.Chem import rdMolDescriptors as rdmdesc
 from typing import List, Any
@@ -310,10 +311,15 @@ class MoleculeFeaturizer(object):
             return None
 
     def compute_properties_for_mols(
-        self, molecules, as_dataframe: bool = True, count_unique_bits: bool = True
+        self, molecules, as_dataframe: bool = True, count_unique_bits: bool = True,
+        add_explicit_h: bool = True
     ):
         try:
             # if True:
+
+            if add_explicit_h:
+                molecules = [AddHs for mol in molecules]
+                
 
             mordred_features, mordred_descs = [], None
             mols_df = pd.DataFrame(molecules, columns=["RMol"])
