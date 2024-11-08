@@ -131,7 +131,6 @@ def plot_value_distribution(
     bar_width=0.8,
     fig_pathname=None,
 ):
-
     plt.figure(figsize=figsize)
     plt.hist(values, bins="auto", density=False, alpha=alpha, width=bar_width)
 
@@ -444,7 +443,6 @@ def plot_curves(
     figsize=(8, 6),
     markersize=8,
 ):
-
     # print(f"{len(fpr)} - {len(tpr)} - {len(markers)} -{len(labels)} - {len(colors)}")
     assert np.equal(
         len(x) + len(y) + len(linestyles) + len(labels) + len(colors), 5 * len(x)
@@ -546,7 +544,6 @@ def plot_umap(
     alpha=0.75,
     random_state=1,
 ):
-
     # Initialize UMAP model
     reducer = umap.UMAP(
         n_components=n_components,
@@ -638,7 +635,6 @@ def plots_train_val_metrics(
     image_pathname: str = None,
     val_score_name: str = None,
 ):
-
     plt.figure(figsize=figsize)
     plt.plot(train_losses, color="orange", label="train loss")
     if not val_losses is None:

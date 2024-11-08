@@ -49,7 +49,6 @@ def calculate_binary_class_scores(y_true, y_pred, metrics, proba_threshold=None)
     # print(y_pred)
     for metric in metrics:
         try:
-
             scores[metric.__name__] = round(metric(y_true, y_pred_), 3)
         except Exception as exp:
             print(f"Could not compute metric '{metric.__name__}'.\n{exp}")

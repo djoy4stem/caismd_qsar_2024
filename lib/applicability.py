@@ -29,7 +29,6 @@ class ApplicationDomainEstimator:
         metric: str = "jaccard",
         leaf_size: int = 40,
     ):
-
         self.nn_model = None
         self.max_dist = None
         self.n_neighbors = None

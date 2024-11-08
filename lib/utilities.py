@@ -47,7 +47,6 @@ from typing import List, Union, Any, Tuple
 
 
 def set_seeds(seed: int = None):
-
     os.environ["PYTHONHASHSEED"] = str(
         seed
     )  # controls the hash seed for hash-based operations so they are reproducible, if seed is not None
@@ -188,7 +187,6 @@ def flatten_list(mylist: List[Any]):
 
 
 def calculate_fingerprints(molecules, fingerprint_type="morgan", radius=2, nBits=1024):
-
     valid_fingerprints = ["morgan", "avalon", "atom-pair", "maccs"]
     if fingerprint_type not in valid_fingerprints:
         raise ValueError(
@@ -276,7 +274,6 @@ def get_representations(
 
 
 def avg_tanimoto_coefficient_from_fps(fingerprints):
-
     total_pairs = len(fingerprints) * (len(fingerprints) - 1) / 2
     similarities = Chem.DataStructs.BulkTanimotoSimilarity(
         fingerprints[0], fingerprints
@@ -287,7 +284,6 @@ def avg_tanimoto_coefficient_from_fps(fingerprints):
 
 
 def avg_tanimoto_dissimilarity_from_fps(fingerprints):
-
     total_pairs = len(fingerprints) * (len(fingerprints) - 1) / 2
     similarities = Chem.DataStructs.BulkTanimotoSimilarity(
         fingerprints[0], fingerprints

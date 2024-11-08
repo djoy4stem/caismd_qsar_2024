@@ -32,7 +32,6 @@ from lib import utilities
 def check_ratios(
     train_ratio: float = 0.8, val_ratio: float = None, test_ratio: float = 0.2
 ):
-
     val_ratio = float(val_ratio or 0)
     # if val_ratio is None:
     #     assert isclose(0.9999999, train_ratio + test_ratio, rel_tol=1e-06, abs_tol=1e-06), f"train_ratio + test_ratio must be equals 1, not {train_ratio + test_ratio}."
@@ -45,43 +44,59 @@ def check_ratios(
 def flatten(mylist: List[Any]):
     return [item for level_2_list in mylist for item in level_2_list]
 
+
 from novana.api import scaffold_from_smiles, shape_from_smiles
 
-class ScaffoldSplitter(object):
 
+class ScaffoldSplitter(object):
     @staticmethod
     def get_bemis_murcko_scaffolds(
         molecules: List[Mol],
         include_chirality: bool = False,
         return_as_indices: bool = True,
         sort_by_size: bool = True,
-        use_novana: bool=False,     
-        **kwargs
+        use_novana: bool = False,
+        **kwargs,
     ):
-        def bm_scaffold(molecule: AllChem.Mol, include_chirality: bool=False, use_novana: bool=True,  **kwargs):
+        def bm_scaffold(
+            molecule: AllChem.Mol,
+            include_chirality: bool = False,
+            use_novana: bool = True,
+            **kwargs,
+        ):
             try:
                 scaffold = None
 
                 if use_novana:
-                    flatten_mol = kwargs.get('flatten_mol', False)
-                    as_shape    = kwargs.get('as_shape', False)
+                    flatten_mol = kwargs.get("flatten_mol", False)
+                    as_shape = kwargs.get("as_shape", False)
 
-                    if as_shape:                         
-                        retain_atom_types = kwargs.get('retain_atom_types', True)
+                    if as_shape:
+                        retain_atom_types = kwargs.get("retain_atom_types", True)
                         try:
-                            scaffold = shape_from_smiles(smiles=MolToSmiles(molecule)
-                                                        , flatten_mol=flatten_mol
-                                                        , retain_atom_types=retain_atom_types)
+                            scaffold = shape_from_smiles(
+                                smiles=MolToSmiles(molecule),
+                                flatten_mol=flatten_mol,
+                                retain_atom_types=retain_atom_types,
+                            )
                         except Exception as ne:
-                            print(f"Could not generate shape from smiles with novana: \n{ne}")
+                            print(
+                                f"Could not generate shape from smiles with novana: \n{ne}"
+                            )
                     else:
                         try:
-                            generalise_heteroatoms = kwargs.get('generalise_heteroatoms', False)
-                            scaffold = scaffold_from_smiles(smiles=MolToSmiles(molecule)
-                                                            , flatten_mol=flatten_mol
-                                                            , generalise_heteroatoms=generalise_heteroatoms)    
+                            generalise_heteroatoms = kwargs.get(
+                                "generalise_heteroatoms", False
+                            )
+                            scaffold = scaffold_from_smiles(
+                                smiles=MolToSmiles(molecule),
+                                flatten_mol=flatten_mol,
+                                generalise_heteroatoms=generalise_heteroatoms,
+                            )
                         except Exception as e:
-                            print(f"Could not generate scaffold from smiles with novana: \n{ne}")            
+                            print(
+                                f"Could not generate scaffold from smiles with novana: \n{ne}"
+                            )
 
                     if not scaffold is None:
                         scaffold = MolToSmiles(scaffold)
@@ -97,9 +112,10 @@ class ScaffoldSplitter(object):
                     f"Could not generate a Bemis-Murck scaffold for the query molecule. \n{exp}"
                 )
                 # return None
+
         # def bm_scaffold(molecule: Mol, include_chirality: bool = False,
         #                         use_novana: bool=False,
-        #                         generalise_heteroatoms: bool=False,        
+        #                         generalise_heteroatoms: bool=False,
         #                         **kwargs
         #                     ):
         #     try:
@@ -182,10 +198,9 @@ class ScaffoldSplitter(object):
         sort_by_size: bool = True,
         shuffle_idx: bool = False,
         random_state: int = 1,
-        use_novana:bool = False,
-        **kwargs
+        use_novana: bool = False,
+        **kwargs,
     ):
-
         def len_for_list_of_dicts(ldicts: List[dict]):
             # print([len(d[1]) for d in ldicts])
             l = sum([len(d[1]) for d in ldicts])
@@ -193,7 +208,6 @@ class ScaffoldSplitter(object):
 
         # try:
         if True:
-
             check_ratios(
                 train_ratio=train_ratio, val_ratio=val_ratio, test_ratio=test_ratio
             )
@@ -210,7 +224,7 @@ class ScaffoldSplitter(object):
                 return_as_indices=return_as_indices,
                 sort_by_size=sort_by_size,
                 use_novana=use_novana,
-                kwargs = kwargs
+                kwargs=kwargs,
             )
 
             # print("bmscaffolds = ", bmscaffolds)
@@ -265,7 +279,6 @@ class ScaffoldSplitter(object):
         random_state: int = 1,
         sort_by_size: bool = True,
     ):
-
         try:
             # if True:
             fold_size = ceil(len(molecules) / n_folds)
@@ -291,7 +304,6 @@ class ScaffoldSplitter(object):
 
 
 class ClusterSplitter(object):
-
     # _allowable_fptypes = ['morgan', 'atom_pair', 'topoligical']
 
     @staticmethod
@@ -406,7 +418,6 @@ class ClusterSplitter(object):
         sim_cutoff=0.7,
         return_as_indices: bool = False,
     ):
-
         fingerprints = ClusterSplitter.generate_fingerprints(
             molecules=molecules,
             fingerprint_type=fingerprint_type,
@@ -453,7 +464,6 @@ class ClusterSplitter(object):
         shuffle_idx: bool = False,
         random_state: int = 1,
     ):
-
         def len_for_list_of_dicts(ldicts: List[dict]):
             # print([len(d[1]) for d in ldicts])
             l = sum([len(d) for d in ldicts])

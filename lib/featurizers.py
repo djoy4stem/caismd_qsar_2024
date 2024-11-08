@@ -13,7 +13,7 @@ from rdkit.Chem import (
     Fragments,
     MolToSmiles,
     GetPeriodicTable,
-    AddHs
+    AddHs,
 )
 from rdkit.Chem import rdMolDescriptors as rdmdesc
 from typing import List, Any
@@ -283,11 +283,9 @@ class MoleculeFeaturizer(object):
 
                 return prop_values
             else:
-
                 return properties
 
     def compute_mordred_props(self, molecules, mordred_props: list = None):
-
         try:
             clean_props = None
             # print('mordred_props', mordred_props)
@@ -311,15 +309,17 @@ class MoleculeFeaturizer(object):
             return None
 
     def compute_properties_for_mols(
-        self, molecules, as_dataframe: bool = True, count_unique_bits: bool = True,
-        add_explicit_h: bool = True
+        self,
+        molecules,
+        as_dataframe: bool = True,
+        count_unique_bits: bool = True,
+        add_explicit_h: bool = True,
     ):
         try:
             # if True:
 
             if add_explicit_h:
                 molecules = [AddHs for mol in molecules]
-                
 
             mordred_features, mordred_descs = [], None
             mols_df = pd.DataFrame(molecules, columns=["RMol"])
@@ -498,7 +498,6 @@ def matches_lipinski_ro5(num_hba, num_hbd, molwt, logp):
 
 
 def calculate_fingerprints(molecules, fingerprint_type="morgan", radius=2, nBits=1024):
-
     valid_fingerprints = ["morgan", "avalon", "atom-pair", "maccs"]
     if fingerprint_type not in valid_fingerprints:
         raise ValueError(

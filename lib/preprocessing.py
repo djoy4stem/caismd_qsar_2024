@@ -101,7 +101,6 @@ def clean_features(
     strategy_num="mean",
     strategy_cat="most_frequent",
 ):
-
     if columns_to_clean is None:
         columns_to_clean = features_df.columns
     numeric_cols = [
