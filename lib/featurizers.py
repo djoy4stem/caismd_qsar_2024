@@ -12,6 +12,7 @@ from rdkit.Chem import (
     GraphDescriptors,
     Fragments,
     MolToSmiles,
+    MolFromSmiles,
     GetPeriodicTable,
     AddHs,
 )
@@ -176,6 +177,7 @@ class MoleculeFeaturizer(object):
         if not molecule is None:
             if not (features is None or len(features) == 0):
                 for prop in features:
+                    # if True:
                     try:
                         if prop in self.allowable_calc_features:
                             properties[prop] = eval(f"rdmdesc.{prop}")(molecule)
@@ -319,7 +321,7 @@ class MoleculeFeaturizer(object):
             # if True:
 
             if add_explicit_h:
-                molecules = [AddHs for mol in molecules]
+                molecules = [AddHs(mol) for mol in molecules]
 
             mordred_features, mordred_descs = [], None
             mols_df = pd.DataFrame(molecules, columns=["RMol"])
@@ -334,7 +336,7 @@ class MoleculeFeaturizer(object):
             # print('rdkit_props\n', rdkit_props[0], '\n', rdkit_props.values.tolist())
             t1 = time()
             t_rdkit = t1 - t0
-            print(f"RDKIT property calculation: {round(t_rdkit, 3)} seconds.")
+            # print(f"RDKIT property calculation: {round(t_rdkit, 3)} seconds.")
             rdkit_props_is_all_none = (
                 rdkit_props[0] is None and len(rdkit_props.unique()) == 1
             )
@@ -343,7 +345,7 @@ class MoleculeFeaturizer(object):
             mordred_props_df = self.compute_mordred_props(molecules, self.mordred_descs)
             t2 = time()
             t_mordred = t2 - t1
-            print(f"MORDRED property calculation: {round(t_mordred, 3)} seconds.")
+            # print(f"MORDRED property calculation: {round(t_mordred, 3)} seconds.")
             # print(mordred_props_df is None)
             # if rdkit_props =
 
@@ -405,6 +407,7 @@ def get_func_groups_pos_from_mol(
                 onehot_func_gps.tolist(), index=df_func_gps[label_col]
             ).to_dict()
     except:
+        print(df_func_gps["SMARTS"])
         for i, smiles in enumerate(df_func_gps["SMARTS"]):
             onehot_func_gps[i] = None
         if not as_dict:

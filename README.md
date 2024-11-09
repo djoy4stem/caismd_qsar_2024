@@ -27,6 +27,7 @@ The tutorial is provided through a series of notebooks in the data/ folder. It i
 ### **caismd_qsar_2024/** 
   - **data/**  *Contains the original records from the PubChem assay. Additional files will be added here, during preprocessing.*
   - **figs/**  *Figures will be saved here.*
+  - **assets** *Some figures, and other assets used for illustrations.*
   - **lib/**   *Contains the code for several modules with various utility functions.*
   - **models/**    *The models will be saved here.*
   - **notebooks/** *Contains the interactive notebooks with instructions and explainations.*
@@ -41,5 +42,18 @@ The following prerequisites are recommended to the reader. However, the basic un
 * Comfortable working with data.
 * Some experience with (Python) programming or a willingness to learn basic programming concepts
 
+## Streamlit
+A Streamlit app has been added to the project, which allows you to predict DD2 activity using a GUI. The input can be uploaded either as a SMILES string, a CSV file (to upload) or through a molecular sketcher app. (See screenshot below)
+
+<!-- ![App]('figs/streamlit_app.jpg') -->
+
+
+<img src="assets/streamlit_app.jpg" width="512"/>
+
+<br>
+<br>
+
+
+The app can be deployed locally or in production mode. For more information, check the [strealit documentation](https://docs.streamlit.io/deploy).
 
 

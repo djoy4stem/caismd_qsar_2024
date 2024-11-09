@@ -8,6 +8,6 @@ data/*.jpg
 
 
 
-!figs/eval_metrics_wiki_short.png
 !models/
 !data/dd2_inhibition_pubchem_aid_2302.csv
+!data/examples.csv
