@@ -53,6 +53,16 @@ A Streamlit app has been added to the project, which allows you to predict DD2 a
 <br>
 <br>
 
+An advantage of using the drawing applet is that the chemical structure can be changed interactively, and the predicted can be computed on the fly by clicking on the 'Apply button'. This is a nice way of **interactively learning** how structural modification can contribute to activity against the target (See image below). 
+
+<br>
+
+<img src="assets/streamlit_app_interactive.jpg" width="1000"/>
+
+<br>
+<br>
+
+
 
 The app can be deployed locally or in production mode. For more information, check the [strealit documentation](https://docs.streamlit.io/deploy).
 
